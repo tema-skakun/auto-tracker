@@ -18,7 +18,8 @@ const DeviceList: React.FC = () => {
   return (
     <>
       <SearchBar />
-      {(status === 'failed') && <Typography color="error">Failed to load devices: {error}</Typography>}
+      {status === 'failed' && <Typography color="error">Failed to load devices: {error}</Typography>}
+      {status === 'succeeded' && devices.length === 0 && <Typography>No devices found</Typography>}
       <TableContainer component={Paper}>
         <Table>
           <TableHead>

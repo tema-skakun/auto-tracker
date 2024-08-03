@@ -27,6 +27,9 @@ export const fetchDevices = createAsyncThunk('devices/fetchDevices', async () =>
 });
 
 export const fetchDevicesById = createAsyncThunk('devices/fetchDevicesById', async (ids: number[]) => {
+  if (ids.length === 0) {
+    return [];
+  }
   const response = await client.get(`/devices?id=${ids.join('&id=')}`);
   return response.data;
 });

@@ -1,15 +1,19 @@
 import React, { useState } from 'react';
 import { TextField, Button } from '@mui/material';
 import { useDispatch } from 'react-redux';
-import { fetchDevicesById } from '../store/slices/deviceSlice';
+import { fetchDevices, fetchDevicesById } from '../store/slices/deviceSlice';
 
 const SearchBar: React.FC = () => {
   const [search, setSearch] = useState('');
   const dispatch = useDispatch();
 
   const handleSearch = () => {
-    const ids = search.split(',').map(id => parseInt(id.trim()));
-    dispatch(fetchDevicesById(ids));
+    if (search.trim() === '') {
+      dispatch(fetchDevices());
+    } else {
+      const ids = search.split(',').map(id => parseInt(id.trim(), 10));
+      dispatch(fetchDevicesById(ids));
+    }
   };
 
   return (
