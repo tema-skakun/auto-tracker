@@ -7,11 +7,15 @@ import { Alert } from '@mui/material';
 const Login: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
+  const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
+    if (!email || !password) {
+      setError('Email and password are required');
+      return;
+    }
     try {
       await axios.post('/api/session', new URLSearchParams({ email, password }).toString(), {
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
@@ -41,10 +45,12 @@ const Login: React.FC = () => {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
-        <Button type="submit" variant="contained" color="primary">Login</Button>
+        <Button type="submit" variant="contained" color="primary" style={{ marginTop: 16 }}>
+          Login
+        </Button>
       </form>
-      <Snackbar open={!!error} autoHideDuration={6000} onClose={() => setError('')}>
-        <Alert onClose={() => setError('')} severity="error">{error}</Alert>
+      <Snackbar open={!!error} autoHideDuration={6000} onClose={() => setError(null)}>
+        <Alert onClose={() => setError(null)} severity="error">{error}</Alert>
       </Snackbar>
     </Container>
   );
