@@ -2,20 +2,23 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchDevices } from '../store/slices/deviceSlice';
 import { RootState } from '../store';
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, CircularProgress, Typography } from '@mui/material';
 import SearchBar from './SearchBar';
 
 const DeviceList: React.FC = () => {
   const dispatch = useDispatch();
-  const devices = useSelector((state: RootState) => state.devices.list);
+  const { list: devices, status, error } = useSelector((state: RootState) => state.devices);
 
   useEffect(() => {
     dispatch(fetchDevices());
   }, [dispatch]);
 
+  if (status === 'loading') return <CircularProgress />;
+
   return (
     <>
       <SearchBar />
+      {(status === 'failed') && <Typography color="error">Failed to load devices: {error}</Typography>}
       <TableContainer component={Paper}>
         <Table>
           <TableHead>
