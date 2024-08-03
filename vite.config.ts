@@ -6,11 +6,7 @@ export default defineConfig({
   server: {
     port: 3000,
     proxy: {
-      '/api': {
-        target: 'https://gps.autotracker.group',
-        changeOrigin: true,
-        secure: false
-      }
+      '/api': 'https://gps.autotracker.group'
     }
   }
 });

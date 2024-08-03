@@ -1,3 +1,8 @@
+
+- добавить обработку ошибки при поиске не существующего ID, например поиск буквы
+- добавить кнопку логоут
+- добавить обработку ошибок на станице логин
+
 # React + TypeScript + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
