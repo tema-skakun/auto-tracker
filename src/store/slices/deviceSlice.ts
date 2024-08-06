@@ -22,16 +22,24 @@ const initialState: DevicesState = {
 };
 
 export const fetchDevices = createAsyncThunk('devices/fetchDevices', async () => {
-  const response = await client.get('/devices');
-  return response.data;
+  try {
+    const response = await client.get('/devices');
+    return response.data;
+  } catch (error) {
+    throw Error('Failed to fetch devices');
+  }
 });
 
 export const fetchDevicesById = createAsyncThunk('devices/fetchDevicesById', async (ids: number[]) => {
-  if (ids.length === 0) {
-    return [];
+  try {
+    if (ids.length === 0) {
+      return [];
+    }
+    const response = await client.get(`/devices?id=${ids.join('&id=')}`);
+    return response.data;
+  } catch (error) {
+    throw Error('Failed to fetch devices by ID');
   }
-  const response = await client.get(`/devices?id=${ids.join('&id=')}`);
-  return response.data;
 });
 
 const deviceSlice = createSlice({
@@ -60,7 +68,7 @@ const deviceSlice = createSlice({
       })
       .addCase(fetchDevicesById.rejected, (state, action) => {
         state.status = 'failed';
-        state.error = action.error.message || 'Failed to fetch devices';
+        state.error = action.error.message || 'Failed to fetch devices by ID';
       });
   },
 });
