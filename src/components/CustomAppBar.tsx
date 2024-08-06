@@ -1,7 +1,7 @@
 import React from 'react';
 import {AppBar, Toolbar, Typography, Button} from '@mui/material';
 import {useNavigate} from 'react-router-dom';
-import LogoutButton from './LogoutButton.tsx';
+import LogoutButton from './LogoutButton';
 
 const CustomAppBar: React.FC = () => {
   const navigate = useNavigate();
@@ -12,6 +12,7 @@ const CustomAppBar: React.FC = () => {
         <Typography variant="h6" style={{flexGrow: 1}}>
           СтавТрэк
         </Typography>
+        <Button color="inherit" onClick={() => navigate('/')}>Home</Button>
         <Button color="inherit" onClick={() => navigate('/devices')}>Devices</Button>
         <LogoutButton/>
       </Toolbar>

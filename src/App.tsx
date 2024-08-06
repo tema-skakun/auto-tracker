@@ -17,7 +17,6 @@ const PrivateRoute: React.FC<PrivateRouteProps> = ({element}) => {
 };
 
 const App: React.FC = () => {
-
   return (
     <Router>
       <Routes>
