@@ -29,10 +29,11 @@ const Login: React.FC = () => {
       return;
     }
     try {
-      await client.post('/session', new URLSearchParams({email, password}).toString(), {
+      const response = await client.post('/session', new URLSearchParams({email, password}).toString(), {
         headers: {'Content-Type': 'application/x-www-form-urlencoded'}
       });
-      dispatch(login());
+      const token = response.data.token;
+      dispatch(login(token));
       navigate('/');
     } catch (error) {
       setError('Login failed');
