@@ -13,10 +13,19 @@ const Login: React.FC = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
+  const validateEmail = (email: string) => {
+    const re = /\S+@\S+\.\S+/;
+    return re.test(email);
+  };
+
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     if (!email || !password) {
       setError('Email and password are required');
+      return;
+    }
+    if (!validateEmail(email)) {
+      setError('Invalid email format');
       return;
     }
     try {
