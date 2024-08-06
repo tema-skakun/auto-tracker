@@ -1,4 +1,4 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import {createSlice, createAsyncThunk} from '@reduxjs/toolkit';
 import client from '../../api/client';
 
 interface Device {
@@ -7,6 +7,13 @@ interface Device {
   uniqueId: string;
   status: string;
   lastUpdate: string;
+  positionId: number;
+  groupId: number;
+  phone: string;
+  model: string;
+  contact: string;
+  category: string;
+  attributes: Record<string, unknown>;
 }
 
 interface DevicesState {
@@ -42,6 +49,24 @@ export const fetchDevicesById = createAsyncThunk('devices/fetchDevicesById', asy
   }
 });
 
+export const addDevice = createAsyncThunk('devices/addDevice', async (newDevice: Device) => {
+  try {
+    const response = await client.post('/devices', newDevice);
+    return response.data;
+  } catch (error) {
+    throw Error('Failed to add device');
+  }
+});
+
+export const deleteDevice = createAsyncThunk('devices/deleteDevice', async (deviceId: number) => {
+  try {
+    await client.delete(`/devices/${deviceId}`);
+    return deviceId;
+  } catch (error) {
+    throw Error('Failed to delete device');
+  }
+});
+
 const deviceSlice = createSlice({
   name: 'devices',
   initialState,
@@ -69,6 +94,12 @@ const deviceSlice = createSlice({
       .addCase(fetchDevicesById.rejected, (state, action) => {
         state.status = 'failed';
         state.error = action.error.message || 'Failed to fetch devices by ID';
+      })
+      .addCase(addDevice.fulfilled, (state, action) => {
+        state.list.push(action.payload);
+      })
+      .addCase(deleteDevice.fulfilled, (state, action) => {
+        state.list = state.list.filter(device => device.id !== action.payload);
       });
   },
 });
