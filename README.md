@@ -1,46 +1,126 @@
+# Auto Tracker App
 
+Auto Tracker App - это тестовое задание на React с использованием Vite, Typescript, MUI и REST API для управления списком устройств GPS.
 
-- перенести добавление и удаление в действия
-- переделать вёрстку под скриншот в задании
-- ~~добавить POST и DELETE данных~~
-- ~~при переходе на / происходит логаут!~~
-- ~~настроить отступы на странице девайсов~~
-- ~~добавить кнопку лог оут~~
-- ~~добавить проверку, если пользователь не залогинен - отправлять его на логин пэйдж~~
-- ~~добавить обработку ошибю/ки при поиске не существующего ID, например поиск буквы~~
-- ~~добавить обработку ошибок на станице логин~~
+## Установка и запуск проекта
 
+### Шаги по установке:
 
+1. **Клонировать репозиторий:**
 
+    ```bash
+    git clone https://github.com/tema-skakun/auto-tracker.git
+    cd auto-tracker
+    ```
 
+2. **Установить зависимости:**
 
-# React + TypeScript + Vite
+    ```bash
+    npm install
+    ```
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+3. **Запустить проект:**
 
-Currently, two official plugins are available:
+    ```bash
+    npm run dev
+    ```
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+   Приложение будет доступно по адресу: `http://localhost:3000`
 
-## Expanding the ESLint configuration
+## Конфигурация Vite
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+В файле `vite.config.ts` указаны настройки сервера:
 
-- Configure the top-level `parserOptions` property like this:
+```typescript
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json', './tsconfig.app.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
+export default defineConfig({
+  plugins: [react()],
+  server: {
+    port: 3000,
+    proxy: {
+      '/api': 'https://gps.autotracker.group'
+    }
+  }
+});
 ```
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+## Основные библиотеки и инструменты
+
+- React: Библиотека для создания пользовательских интерфейсов.
+- Vite: Инструмент для сборки проектов. 
+- TypeScript: Язык программирования, расширяющий возможности JavaScript. 
+- MUI: Библиотека компонентов для React. 
+- Redux Toolkit: Инструмент для управления состоянием приложения. 
+- Axios: HTTP-клиент для выполнения запросов к API. 
+- React Router: Библиотека для маршрутизации в React. 
+- React Testing Library: Инструмент для тестирования компонентов React. 
+- Storybook: Инструмент для разработки и тестирования компонентов UI.
+
+## Функциональные возможности
+
+### Страницы
+1. **Страница авторизации:**
+- Форма входа с полями Email и Пароль. 
+- Валидация полей.
+- Обработка и вывод ошибок.
+- Перенаправление на главную страницу при успешной авторизации.
+
+2. **Главная страница (Home):**
+- Доступна после успешной авторизации.
+
+3. **Список устройств (DeviceList):**
+- Выводит таблицу с данными устройств (id, name, uniqueId, status, lastUpdate).
+- Поиск устройств по id.
+- Добавление новых устройств.
+- Удаление устройств.
+
+### Компоненты
+- AppBar: Верхняя панель навигации.
+- DeviceList: Компонент для отображения списка устройств.
+- SearchBar: Компонент для поиска устройств по id.
+- AddDeviceForm: Форма для добавления нового устройства.
+- AddDeviceModal: Модальное окно для добавления нового устройства.
+- LogoutButton: Кнопка выхода из системы.
+
+### API Запросы
+- Получение данных:
+
+```http
+GET https://gps.autotracker.group/api/devices
+```
+
+- Добавление данных:
+
+```http
+POST https://gps.autotracker.group/api/devices
+```
+- Удаление данных:
+
+```http
+DELETE https://gps.autotracker.group/api/devices/{id}
+```
+- Создание сессии:
+
+```http
+POST https://gps.autotracker.group/api/session
+```
+### Управление состоянием
+- **authSlice**: Управляет состоянием аутентификации.
+- **deviceSlice**: Управляет состоянием устройств.
+### Тестирование
+Используется React Testing Library для тестирования компонентов.
+Примеры тестов находятся в папке src/components/tests.
+### Storybook
+Используется для разработки и тестирования UI компонентов.
+Конфигурация находится в файле .storybook/main.js.
+```javascript
+module.exports = {
+  stories: ['../src/**/*.stories.@(js|jsx|ts|tsx)'],
+  addons: ['@storybook/addon-links', '@storybook/addon-essentials'],
+  framework: '@storybook/react',
+};
+```
+## Контакты
+Если у вас есть вопросы или предложения, пожалуйста, свяжитесь со мной в [telegram](https://t.me/tema_skakun).
