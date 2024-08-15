@@ -21,6 +21,7 @@ const CustomAppBar: React.FC = () => {
           <Button color="inherit" onClick={() => navigate('/')}>Home</Button>
           <Button color="inherit" onClick={() => navigate('/devices')}>Devices</Button>
           <Button color="inherit" onClick={handleOpen}>Add Device</Button>
+          <Button color="inherit" onClick={() => navigate('/stars')}>Stars</Button>
           <LogoutButton/>
         </Toolbar>
       </AppBar>
